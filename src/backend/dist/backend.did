@@ -1,0 +1,140 @@
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Timestamp = nat;
+type Result__1 = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type Result_5 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result_4 = 
+ variant {
+   err: ProjectError;
+   ok: DeletedFiles;
+ };
+type Result_3 = 
+ variant {
+   err: ProjectError;
+   ok;
+ };
+type Result_2 = 
+ variant {
+   err: ProjectError;
+   ok: vec RenderView;
+ };
+type Result_1 = 
+ variant {
+   err: ProjectError;
+   ok: ProjectView;
+ };
+type Result = 
+ variant {
+   err: ProjectError;
+   ok: RenderView;
+ };
+type RenderView = 
+ record {
+   createdAt: Timestamp;
+   format: text;
+   id: RenderId;
+   outputFile: FileRef;
+   projectId: ProjectId;
+   resolution: text;
+   settingsSummary: text;
+ };
+type RenderId = nat;
+type ProjectView = 
+ record {
+   createdAt: Timestamp;
+   durationMs: nat;
+   id: ProjectId;
+   name: text;
+   sourceFile: FileRef;
+   sourceFilename: text;
+   thumbnail: opt FileRef;
+   updatedAt: Timestamp;
+ };
+type ProjectId = nat;
+type ProjectError = 
+ variant {
+   invalidName;
+   notAuthorized;
+   notFound;
+ };
+type FileRef = text;
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type DeletedFiles = record {files: vec FileRef;};
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result_5);
+  _internet_identity_sign_in_start: () -> (blob);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  /// Create a project owned by the caller.
+  createProject: (name: text, sourceFilename: text, durationMs: nat,
+   thumbnail: opt FileRef, sourceFile: FileRef) -> (Result_1);
+  /// Delete one of the caller's projects and its render records. Returns the
+  /// file references the caller must delete from platform object storage.
+  deleteProject: (id: ProjectId) -> (Result_4);
+  /// Delete one of the caller's renders.
+  deleteRender: (id: RenderId) -> (Result_3);
+  execute: (qJson: text) -> (Result__1) query;
+  /// Return the backend API documentation as Markdown.
+  getApiDoc: () -> (text) query;
+  getCallerUserRole: () -> (UserRole) query;
+  /// Fetch one of the caller's projects.
+  getProject: (id: ProjectId) -> (Result_1) query;
+  isCallerAdmin: () -> (bool) query;
+  /// List the caller's projects.
+  listProjects: () -> (vec ProjectView) query;
+  /// List the renders of one of the caller's projects.
+  listRenders: (projectId: ProjectId) -> (Result_2) query;
+  /// Rename one of the caller's projects.
+  renameProject: (id: ProjectId, name: text) -> (Result_1);
+  /// Save a render record for one of the caller's projects.
+  saveRender: (projectId: ProjectId, outputFile: FileRef, format: text,
+   resolution: text, settingsSummary: text) -> (Result);
+  schema: () -> (text) query;
+}

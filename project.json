@@ -1,0 +1,22 @@
+{
+  "overview": "A browser-based video cleanup studio that removes watermarks, enhances footage, and removes or replaces backgrounds, all processed on the user's own device.",
+  "features": [
+    "Upload a video and preview it with a scrubber and frame stepping",
+    "Draw a mask over horizontal, vertical, or diagonal watermarks and inpaint them away",
+    "Auto-detect assist that proposes a watermark region to accept or adjust",
+    "Before/after comparison and single-frame preview before rendering",
+    "Enhance video with brightness, contrast, saturation, sharpness, denoise, and presets",
+    "Remove the background with AI matting and replace it with transparent, a color, or a blurred original",
+    "Render the full video and download the result with original resolution and audio",
+    "Sign in to save projects and render history"
+  ],
+  "category": "video-editing",
+  "tags": [
+    "video",
+    "watermark-removal",
+    "video-enhancement",
+    "background-removal",
+    "media-tools"
+  ],
+  "last_updated": "2026-10-17T20:33:02.410Z"
+}

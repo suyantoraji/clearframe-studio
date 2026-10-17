@@ -1,0 +1,107 @@
+// Version: 4.0.0
+type AccessControlState__201339279 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__230067015<Principal, UserRole__91647283>
+  };
+type Counters__949732965 = {var nextProjectId : Nat; var nextRenderId : Nat};
+type Data__44217153<K, V> = {var count : Nat__227979830; kvs : [var ?(K, V)]};
+type FileRef__1050856946 = Text;
+type FileRef__537435673 = FileRef__939992998;
+type FileRef__939992998 = Text;
+type Internal__283199666<K, V> =
+  {children : [var ?Node__204828119<K, V>]; data : Data__44217153<K, V>};
+type Leaf__598469445<K, V> = {data : Data__44217153<K, V>};
+type Map__230067015<K, V> = Map__405889023<K, V>;
+type Map__405889023<K, V> = Map__603270868<K, V>;
+type Map__603270868<K, V> =
+  {var root : Node__204828119<K, V>; var size : Nat__227979830};
+type Nat__227979830 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__50754143 =
+  {
+    accessControlState : AccessControlState__201339279;
+    counters : Counters__949732965;
+    projects : Map__230067015<ProjectId__473494368, Project__52188392>;
+    renders : Map__230067015<RenderId__728994514, Render__862309604>
+  };
+type Node__204828119<K, V> =
+  {#internal : Internal__283199666<K, V>; #leaf : Leaf__598469445<K, V>};
+type OldActor__263392624 = {};
+type ProjectId__473494368 = Nat;
+type ProjectId__478417951 = Nat;
+type ProjectId__661817938 = ProjectId__478417951;
+type Project__52188392 =
+  {
+    createdAt : Timestamp__773496829;
+    durationMs : Nat;
+    id : ProjectId__473494368;
+    name : Text;
+    owner : Principal;
+    sourceFile : FileRef__1050856946;
+    sourceFilename : Text;
+    thumbnail : ?FileRef__1050856946;
+    updatedAt : Timestamp__773496829
+  };
+type Project__614212307 =
+  {
+    createdAt : Timestamp__624602616;
+    durationMs : Nat;
+    id : ProjectId__661817938;
+    name : Text;
+    owner : Principal;
+    sourceFile : FileRef__537435673;
+    sourceFilename : Text;
+    thumbnail : ?FileRef__537435673;
+    updatedAt : Timestamp__624602616
+  };
+type RenderId__627105807 = RenderId__799642721;
+type RenderId__728994514 = Nat;
+type RenderId__799642721 = Nat;
+type Render__795085053 =
+  {
+    createdAt : Timestamp__624602616;
+    format : Text;
+    id : RenderId__627105807;
+    outputFile : FileRef__537435673;
+    owner : Principal;
+    projectId : ProjectId__661817938;
+    resolution : Text;
+    settingsSummary : Text
+  };
+type Render__862309604 =
+  {
+    createdAt : Timestamp__773496829;
+    format : Text;
+    id : RenderId__728994514;
+    outputFile : FileRef__1050856946;
+    owner : Principal;
+    projectId : ProjectId__473494368;
+    resolution : Text;
+    settingsSummary : Text
+  };
+type Timestamp__301639476 = Nat;
+type Timestamp__624602616 = Timestamp__301639476;
+type Timestamp__773496829 = Nat;
+type UserRole__91647283 = {#admin; #guest; #user};
+{
+  "20261017_000000" : OldActor__263392624 -> NewActor__50754143
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__230067015<Principal, UserRole__91647283>
+    };
+  stable counters : {var nextProjectId : Nat; var nextRenderId : Nat};
+  stable projects :
+    {
+      var root : Node__204828119<ProjectId__478417951, Project__614212307>;
+      var size : Nat__227979830
+    };
+  stable renders :
+    {
+      var root : Node__204828119<RenderId__799642721, Render__795085053>;
+      var size : Nat__227979830
+    }
+};
